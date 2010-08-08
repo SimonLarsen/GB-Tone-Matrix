@@ -1,6 +1,7 @@
 ; +-------------------------+
 ; |   Gameboy Tone Matrix   |
 ; |  written in RGBDS ASM   |
+; |  (c) 2010 Simon Larsen  |
 ; +-------------------------+
 ; ============
 ;   Includes
@@ -22,6 +23,7 @@ Start::
 	ld	[rOBP0],a
 
 	call LOAD_TILES	
+	call CLEAR_SCRN0
 	call CLEAR_MATRIX
 	call DRAW_BOARD
 	call CREATE_SPRITES
