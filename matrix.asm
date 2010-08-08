@@ -364,23 +364,20 @@ RESET_HORIZONTAL_COUNTER::
 	ret
 
 ENABLE_SOUND::
-	; Reenable sounds
-	;ld	a,%11111111
-	;ld	[rNR52],a
-
 	; Reset Channel 1 and 2
-	ld	a,0
-	ld	[rNR10],a
-	ld	a,%10001111
-	ld	[rNR11],a
-	ld	[rNR21],a
-	ld	a,%01001000
-	ld	[rNR12],a
+	ld	a,0			; CH1 Sweep
+	ld	[rNR10],a	
+	ld	a,%01111111	; CH1 Sound length/Wave pattern duty
+	ld	[rNR11],a	; %10: 50% = normal
+	ld	a,%11111111	; CH2 Sound length/Wave pattern duty
+	ld	[rNR21],a	; %11: 75% = mellow?
+	ld	a,%01000111	; Volume envelope
+	ld	[rNR12],a	
 	ld	[rNR22],a
-	ld	a,%11111111
+	ld	a,%11111111	; Frequency (lower 8 bits)
 	ld	[rNR13],a
 	ld	[rNR23],a
-	ld	a,%11111111
+	ld	a,%11111111 ; Frequency (higher 3 bits)/init/stop or not?
 	ld	[rNR14],a
 	ld	[rNR24],a
 	ret
