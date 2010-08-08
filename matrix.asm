@@ -5,10 +5,8 @@
 ; ============
 ;   Includes
 ; ============
-	; system includes
 	INCLUDE	"Hardware.inc"
 	INCLUDE "Header.inc"
-
 ; =================
 ;   Program Start
 ; =================
