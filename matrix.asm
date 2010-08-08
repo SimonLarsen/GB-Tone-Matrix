@@ -99,7 +99,8 @@ CLEAR_SCRN0_LOOP::
 	ld	a,0
 	ld	[hl+],a
 	dec	bc
-	or	0
+	ld	a,b
+	or	c
 	jr	nz,CLEAR_SCRN0_LOOP
 	ret
 
