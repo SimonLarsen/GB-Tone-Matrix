@@ -177,17 +177,16 @@ CHECK_ARROWS::
 	ld	b,a
 
 	bit	0,b
-	jr	z,RIGHT_PRESSED
-AFTER_RIGHT_CHECK::
+	call z,RIGHT_PRESSED
+
 	bit	1,b
-	jr	z,LEFT_PRESSED
-AFTER_LEFT_CHECK::
+	call z,LEFT_PRESSED
+
 	bit	2,b
-	jr	z,UP_PRESSED
-AFTER_UP_CHECK::
+	call z,UP_PRESSED
+
 	bit	3,b
-	jr	z,DOWN_PRESSED
-AFTER_DOWN_CHECK::
+	call z,DOWN_PRESSED
 	ret
 
 RIGHT_PRESSED::
@@ -196,7 +195,7 @@ RIGHT_PRESSED::
 	ret	z
 	inc	a
 	ld	[MARKERX],a
-	jp AFTER_RIGHT_CHECK
+	ret
 
 LEFT_PRESSED::
 	ld	a,[MARKERX]
@@ -204,7 +203,7 @@ LEFT_PRESSED::
 	ret	z
 	dec	a
 	ld	[MARKERX],a
-	jp AFTER_LEFT_CHECK
+	ret
 
 UP_PRESSED::
 	ld	a,[MARKERY]
@@ -212,7 +211,7 @@ UP_PRESSED::
 	ret	z
 	dec	a
 	ld	[MARKERY],a
-	jp AFTER_UP_CHECK
+	ret
 
 DOWN_PRESSED::
 	ld	a,[MARKERY]
@@ -220,7 +219,7 @@ DOWN_PRESSED::
 	ret z
 	inc	a
 	ld	[MARKERY],a
-	jp AFTER_DOWN_CHECK
+	ret
 
 ; Check A, B and Start buttons
 ; and set MATRIX to 1 or 0
@@ -337,8 +336,8 @@ PLAY_TONE::
 	add	hl,de
 	ld	d,a ; Restore d
 	or	0
-	jr z,PLAY_TONE_CN1
-	jr   PLAY_TONE_CN2
+	jr	z,PLAY_TONE_CN1
+	jr	  PLAY_TONE_CN2
 	ret
 PLAY_TONE_CN1::
 	ld	a,[hl+]
