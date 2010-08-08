@@ -17,7 +17,6 @@ Start::
 
 	ld	a,0			
 	ld	[rLCDC],a ; Disable LCD
-	;ld	[rNR52],a ; Disable sound
 	ld	a,%11100100
 	ld	[rBGP],a	; Standard palette
 	ld	[rOBP0],a
@@ -257,10 +256,6 @@ B_PRESSED::
 	ld	[hl],0
 	ret
 
-START_PRESSED::
-	call PLAY_MUSIC
-	ret
-
 SELECT_PRESSED::
 	call WAIT_VBLANK
 	ld	a,0
@@ -288,9 +283,6 @@ PLAY_MUSIC::
 	ld	a,9*16
 	ld	[hl],a
 PLAY_MUSIC_HORIZONTAL_LOOP::
-	;REPT 50
-		;call WAIT_VBLANK
-	;ENDR
 	call NonLoop
 	call NonLoop
 	ld	a,[HPOS]
@@ -333,29 +325,9 @@ VERTICAL_LOOP_END::
 	cp	16 ; Reset of hor.count. if it has reached 16
 	call z,RESET_HORIZONTAL_COUNTER
 
-	; Check if start button is pressed
-	;ld	a,P1F_4
-	;ld	[rP1],a	
-	;REPT 4
-		;ld	a,[rP1]
-	;ENDR
-	;bit	3,a
-	;jr	z,PLAY_EXIT_WAIT
-
 	ld	a,c
 	ld	[HPOS],a
 	jp	PLAY_MUSIC_HORIZONTAL_LOOP ; Restart loop
-
-PLAY_EXIT_WAIT::
-	REPT 40
-		call WAIT_VBLANK
-	ENDR
-	ld	hl,_OAMRAM+4
-	ld	a,0
-	ld	[hl+],a
-	ld	a,8
-	ld	[hl],a
-	ret
 
 PLAY_TONE::
 	ld	hl,TONES
