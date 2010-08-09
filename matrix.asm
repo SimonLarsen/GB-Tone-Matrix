@@ -278,6 +278,7 @@ SELECT_PRESSED::
 	ld	[rLCDC],a
 	call CLEAR_SCRN0
 	call DRAW_BOARD
+	call DRAW_COPYRIGHT
 	call CLEAR_MATRIX
 	ld	a,%10010011
 	ld	[rLCDC],a
