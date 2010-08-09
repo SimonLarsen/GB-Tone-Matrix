@@ -25,6 +25,7 @@ Start::
 	call CLEAR_SCRN0
 	call CLEAR_MATRIX
 	call DRAW_BOARD
+	call DRAW_COPYRIGHT
 	call CREATE_SPRITES
 
 	ld	a,%10010011
@@ -63,7 +64,7 @@ WAIT_VBLANK::
 LOAD_TILES::
 	ld	hl,TILES_DATA
 	ld	de,_VRAM
-	ld	b,5*16
+	ld	b,11*16
 LOAD_TILES_LOOP::
 	ld	a,[hl+]
 	ld	[de],a	
@@ -113,6 +114,22 @@ CLEAR_MATRIX_LOOP::
 	ld	a,b
 	or	c
 	jr	nz,CLEAR_MATRIX_LOOP
+	ret
+
+; Draw copyright signature in lower right corner
+; Uses tile $05 to $0A
+DRAW_COPYRIGHT::
+	ld	hl,_SCRN0+558
+	ld	b,6 ; Down counter
+	ld	c,5 ; Tile number
+DRAW_COPYRIGHT_LOOP::
+	ld	a,c
+	ld	[hl+],a
+	inc	c
+	dec	b
+	ld	a,b
+	or	0
+	jr	nz,DRAW_COPYRIGHT_LOOP
 	ret
 
 ; Creates cursor sprite
@@ -471,6 +488,18 @@ TILES_DATA::
 	DB $3C,$18,$FF,$42,$E7,$66,$66,$81
 	DB $00,$00,$08,$08,$1C,$1C,$3E,$3E ; $04	Indicator arrow
 	DB $7F,$7F,$00,$00,$00,$00,$00,$00
+	DB $00,$00,$49,$49,$B5,$B5,$A5,$A5 ; $05   (C) Simon Larsen start
+	DB $B4,$B4,$49,$49,$00,$00,$00,$00
+	DB $00,$00,$AA,$AA,$2E,$2E,$AA,$AA ; $06
+	DB $AA,$AA,$AA,$AA,$00,$00,$00,$00
+	DB $00,$00,$EE,$EE,$AA,$AA,$AA,$AA ; $07
+	DB $AA,$AA,$EA,$EA,$00,$00,$00,$00
+	DB $00,$00,$27,$27,$25,$25,$27,$27 ; $08
+	DB $25,$25,$35,$35,$00,$00,$00,$00
+	DB $00,$00,$76,$76,$54,$54,$66,$66 ; $09
+	DB $52,$52,$56,$56,$00,$00,$00,$00
+	DB $00,$00,$DC,$DC,$94,$94,$D4,$D4 ; $0A   (C) end
+	DB $94,$94,$D4,$D4,$00,$00,$00,$00
 
 ; =============
 ;   Variables
